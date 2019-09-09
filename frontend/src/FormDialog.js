@@ -19,23 +19,24 @@ export default function FormDialog(props) {
   }
 
   return (
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
+    <div id='btn-container'>
+      <Button id='btn' variant="outlined" color="primary" onClick={handleClickOpen}>
         {props.name}
       </Button>
       <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Subscribe</DialogTitle>
+        <DialogTitle id="form-dialog-title">Information</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            To subscribe to this website, please enter your email address here. We will send updates
-            occasionally.
+            ID : {props.id}<br/>
+            Name : {props.name}<br/>
+            Gender : {props.gender}<br/>
           </DialogContentText>
           <TextField
             autoFocus
             margin="dense"
             id="name"
-            label="Email Address"
-            type="email"
+            label="Order"
+            type="text"
             fullWidth
           />
         </DialogContent>
@@ -44,7 +45,7 @@ export default function FormDialog(props) {
             Cancel
           </Button>
           <Button onClick={handleClose} color="primary">
-            Subscribe
+            Submit
           </Button>
         </DialogActions>
       </Dialog>
