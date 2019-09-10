@@ -1,14 +1,17 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
+// import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import axios from 'axios'
+import { Input } from '@material-ui/core';
 
 export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
+  const [data, setData] = React.useState('');
 
   function handleClickOpen() {
     setOpen(true);
@@ -16,6 +19,12 @@ export default function FormDialog(props) {
 
   function handleClose() {
     setOpen(false);
+  }
+  //提交表單
+  function handleSubmit() {
+    axios.get('localhost:3000/')
+      .then(res => console.log(res))
+    console.log('Submit!');
   }
 
   return (
@@ -30,23 +39,29 @@ export default function FormDialog(props) {
             ID : {props.id}<br/>
             Name : {props.name}<br/>
             Gender : {props.gender}<br/>
+            Order : {data}
           </DialogContentText>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            label="Order"
-            type="text"
-            fullWidth
-          />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Submit
-          </Button>
+          <form action='/senddata'>
+            <Input
+                value={data}
+                onChange={(e) => {setData(e.target.value)}}
+                autoFocus
+                margin="dense"
+                name="order"
+                id="order"
+                label="Order"
+                type="text"
+                fullWidth
+              />
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button onClick={handleSubmit} color="primary" type='submit'>
+                Submit
+              </Button>
+          </form>
         </DialogActions>
       </Dialog>
     </div>
