@@ -1,3 +1,5 @@
+var MongoClient = require('mongodb').MongoClient;
+
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
@@ -6,19 +8,9 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');
+// var formdataRouter = require('./routes/formdata');
 
 var app = express();
-
-// get data from frontend
-// const trytry = [
-//     { id: 1, Name: 'JJ' },
-//     { id: 2, Name: 'ZZ' }
-// ];
-app.get('/senddata', function(req, res) {
-    console.log(req.query.order)
-        // res.json(trytry);
-        // res.send('test test');
-});
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -32,6 +24,34 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+// app.use('', formdataRouter);
+
+//get data from frontend
+
+// router.get('/', function(req, res, next) {
+//     res.render('index', { title: 'Index', csrf: '0000-1111-2222-3333' });
+// });
+
+
+app.get('/user', function(req, res) {
+    const name = 'Jason';
+    const gender = 'Male';
+    MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
+        var dbo = db.db('try');
+        if (!err) {
+            console.log('Connect!');
+            dbo.collection('tryList').insertOne({ name: name, gender: gender }, (err, result) => {
+                if (!err) {
+                    console.log('Insert!');
+                } else {
+                    console.log('Not work!');
+                }
+            });
+        } else {
+            console.log(err);
+        }
+    });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

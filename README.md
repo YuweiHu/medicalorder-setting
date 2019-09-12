@@ -3,3 +3,8 @@
 - 以 Material ui 套件中的 FormDialog 進行前端設計
 - Dialog 呈現 5 位病人之基本資訊
 - Order 編輯完成後可更新 Order 之呈現
+
+執行：
+1. 在frontend與backend資料夾中安裝npm
+2. cd frontend
+3. npm start

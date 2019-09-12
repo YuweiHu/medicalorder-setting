@@ -6,7 +6,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import axios from 'axios'
+import axios from 'axios';
 import { Input } from '@material-ui/core';
 
 export default function FormDialog(props) {
@@ -22,9 +22,9 @@ export default function FormDialog(props) {
   }
   //提交表單
   function handleSubmit() {
-    axios.get('localhost:3000/')
+    axios.get('/user',{ params:{id: 12} })
       .then(res => console.log(res))
-    console.log('Submit!');
+      console.log('Submit!');
   }
 
   return (
