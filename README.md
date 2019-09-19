@@ -8,3 +8,5 @@
 1. 在frontend與backend資料夾中安裝npm
 2. cd frontend
 3. npm start
+
+![image](https://github.com/YuweiHu/mern-stack/blob/master/MERN-satck%20Demo%20trim%20v2.gif)
