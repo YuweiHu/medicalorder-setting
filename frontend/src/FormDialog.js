@@ -22,10 +22,19 @@ export default function FormDialog(props) {
   }
   //提交表單
   function handleSubmit() {
-    axios.get('/senddata')
-      .then(res => console.log(res))
+    setOpen(false);
+    console.log(data)
+    axios.get(`/senddata?order=${data}`)
+      .then(res => console.log(res.data))
       console.log('Submit!');
   }
+
+  // function test() {
+  //   const body_data = {
+  //     "order": data
+  //   }
+  //   axios.post('senddata', body_data)
+  // }
 
   return (
     <div id='btn-container'>
@@ -43,7 +52,7 @@ export default function FormDialog(props) {
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          <form action='/senddata'>
+          {/* <form action='/senddata'> */}
             <TextField
                 value={data}
                 onChange={(e) => {setData(e.target.value)}}
@@ -61,7 +70,7 @@ export default function FormDialog(props) {
               <Button onClick={handleSubmit} color="primary" type='submit'>
                 Submit
               </Button>
-          </form>
+          {/* </form> */}
         </DialogActions>
       </Dialog>
     </div>

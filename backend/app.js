@@ -24,26 +24,37 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 
-//測試透過 Express 操作 Local 資料庫
-const name = 'Jason';
-const gender = 'Male';
-MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
-    var dbo = db.db('try');
-    if (!err) {
-        console.log('Connect!');
-        dbo.collection('tryList').insertOne({ name: name, gender: gender }, (err, result) => {
-            if (!err) {
-                console.log('Insert!');
-            } else {
-                console.log('Not work!');
-            }
-        });
-    } else {
-        console.log(err);
-    }
+//表單資料寫入mongoDB資料庫
+app.get('/senddata', function(req, res) {
+    const order = req.query['order'];
+    console.log('Order: ' + order);
+    MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
+        var dbo = db.db('order');
+        if (!err) {
+            console.log('Connect!');
+            dbo.collection('orderList').insertOne({ order:order }, (err, result) => {
+                if (!err) {
+                    console.log('Insert!');
+                } else {
+                    console.log('Not work!');
+                }
+            });
+        } else {
+            console.log(err);
+        }
+    });
 });
-//從表單拿資料
-app.get('/senddata', function(req, res) {});
+
+// app.get('/get_data', function(req, res) {
+//     console.log('Order: ' + req.query['order']);
+//     // mongo find
+//     // data2 = mongoclient.db.collection.find({})
+//     res.send(data2)
+// });
+// app.post('/send_data', function(req, res) {
+//     console.log('Order: ' + req.body.json())
+//         // mongo update
+// });
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
