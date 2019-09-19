@@ -32,7 +32,7 @@ app.get('/senddata', function(req, res) {
         var dbo = db.db('order');
         if (!err) {
             console.log('Connect!');
-            dbo.collection('orderList').insertOne({ order:order }, (err, result) => {
+            dbo.collection('orderList').insertOne({ order: order }, (err, result) => {
                 if (!err) {
                     console.log('Insert!');
                 } else {
@@ -45,16 +45,20 @@ app.get('/senddata', function(req, res) {
     });
 });
 
-// app.get('/get_data', function(req, res) {
-//     console.log('Order: ' + req.query['order']);
-//     // mongo find
-//     // data2 = mongoclient.db.collection.find({})
-//     res.send(data2)
-// });
-// app.post('/send_data', function(req, res) {
-//     console.log('Order: ' + req.body.json())
-//         // mongo update
-// });
+app.get('/json', function(req, res) {
+    MongoClient.connect('mongodb://localhost:27017/', function(err, db) {
+        if (!err) {
+            var dbo = db.db('order');
+            dbo.collection('orderList').find().toArray(function(err, data) {
+                if (!err) {
+                    res.json(data);
+                }
+            })
+        } else {
+            console.log("Error !");
+        }
+    })
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

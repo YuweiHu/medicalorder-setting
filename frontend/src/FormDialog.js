@@ -7,34 +7,31 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from 'axios';
-// import { Input } from '@material-ui/core';
 
 export default function FormDialog(props) {
   const [open, setOpen] = React.useState(false);
+  const [renderorder, setRenderorder] = React.useState('');
   const [data, setData] = React.useState('');
 
   function handleClickOpen() {
     setOpen(true);
+    axios.get("/json")
+    .then((res) => {
+      let end = res.data.length - 1;
+      setRenderorder(res.data[end].order)})
   }
-
+  
   function handleClose() {
     setOpen(false);
   }
   //提交表單
   function handleSubmit() {
     setOpen(false);
-    console.log(data)
+    // console.log(data)
     axios.get(`/senddata?order=${data}`)
       .then(res => console.log(res.data))
       console.log('Submit!');
   }
-
-  // function test() {
-  //   const body_data = {
-  //     "order": data
-  //   }
-  //   axios.post('senddata', body_data)
-  // }
 
   return (
     <div id='btn-container'>
@@ -48,18 +45,16 @@ export default function FormDialog(props) {
             ID : {props.id}<br/>
             Name : {props.name}<br/>
             Gender : {props.gender}<br/>
-            Order : {data}
+            Order : {renderorder}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
-          {/* <form action='/senddata'> */}
             <TextField
                 value={data}
                 onChange={(e) => {setData(e.target.value)}}
                 autoFocus
                 margin="dense"
                 name="order"
-                id="order"
                 label="Order"
                 type="text"
                 fullWidth
@@ -70,7 +65,6 @@ export default function FormDialog(props) {
               <Button onClick={handleSubmit} color="primary" type='submit'>
                 Submit
               </Button>
-          {/* </form> */}
         </DialogActions>
       </Dialog>
     </div>
