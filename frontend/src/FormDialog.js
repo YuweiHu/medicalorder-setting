@@ -17,8 +17,13 @@ export default function FormDialog(props) {
     setOpen(true);
     axios.get("/json")
     .then((res) => {
-      let end = res.data.length - 1;
-      setRenderorder(res.data[end].order)})
+      if(res.data.length == 0){
+        setRenderorder('');
+      }else{
+        let end = res.data.length - 1;
+        setRenderorder(res.data[end].order);
+      }
+    })  
   }
   
   function handleClose() {
@@ -27,10 +32,9 @@ export default function FormDialog(props) {
   //提交表單
   function handleSubmit() {
     setOpen(false);
-    // console.log(data)
     axios.get(`/senddata?order=${data}`)
       .then(res => console.log(res.data))
-      console.log('Submit!');
+    setData('');
   }
 
   return (
